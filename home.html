@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="col body m-4">
+    <h1>Welcome to Online Banking System</h1><hr>
+    <div class="col body">
+     <div class="container">
+       <div class="row">
+         <div class="column rotate card" style="width: 350px;">
+           <div class="row">
+             <div class="col front">
+               <h1 class="mt-3 bg-info text-white" style="width: 70px; height: 70px; text-align: center; padding-top: 7px; border-radius: 10px;"><i class="fa-sharp fa-solid fa-id-card m-2"></i></h1>
+             </div>
+ 
+             <div class="col col-8 mt-3">
+               <h5 class="card-title">Total Accounts </h5>
+               <h3>{{main}}</h3>
+             </div>
+ 
+             
+           </div>
+ 
+         </div>
+         <div class="column rotate card" style="width: 350px;">
+           <div class="row">
+             <div class="col front">
+               <h1 class="mt-3 bg-warning text-black" style="width: 70px; height: 70px; text-align: center; padding-top: 7px; border-radius: 10px;"><i class="fa-solid fa-money-bill"></i></h1>
+             </div>
+ 
+             <div class=" col col-8 mt-2">
+               <h5 class="card-title">Total Accounts Balance </h5>
+               <h3>{{balance}}</h3>
+             </div>
+ 
+           
+           </div>
+ 
+         </div>
+       </div>
+     </div>
+   </div>
+ 
+
+
+
+{% endblock content %}

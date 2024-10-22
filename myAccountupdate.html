@@ -1,0 +1,62 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<div class="col body m-4 shadow-lg p-3 mb-5 bg-body rounded">      
+      <!-- Creating from start here -->
+      <div class="row" >
+       <!-- This col is for contact from start here-->
+          <div class="col-sm-12 col-md-12 col-lg-12 col-12">
+          <h5 style="background-color: blue; height: 5px;"></h5>
+          
+          <br> 
+             <form class="row g-3">
+   <div class="col-md-11">
+     <label for="inputname" class="form-label">Fast Name</label>
+     <input type="name" class="form-control" id="inputname" placeholder="Dhoni">
+   </div>
+  <div class="col-md-11">
+    <label for="inputname" class="form-label">Last Name</label>
+    <input type="name" class="form-control" id="inputname" placeholder="Mr">
+  </div>
+ &nbsp;
+
+  <div class="col-md-11">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4" placeholder="Itsolutions123.com">
+  </div>
+  <div class="col-md-11">
+    <label for="inputpassword" class="form-label">Password</label>
+   <div class="input-group mb-3" >
+    <input type="password" class="form-control" id="password" placeholder="*****">
+    <button type="button" id="generatePassword" style="border-color: skyblue;" >Generate</button>
+  </div>
+  </div>
+  <script>
+    document.getElementById("generatePassword").addEventListener("click", function() {
+        var passwordField = document.getElementById("password");
+        var newPassword = generateRandomPassword(10); // Change 10 to desired length
+        passwordField.type = "text"; // Change input type to text to make the generated password visible
+        passwordField.value = newPassword;
+    });
+    
+    function generateRandomPassword(length) {
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+        var password = "";
+        for (var i = 0; i < length; i++) {
+            var randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+        return password;
+    }
+    </script>
+   <div class="col-12">
+     <button type="submit" class="btn btn-primary">Save</button>
+     <button type="submit" class="btn btn-secondary">Cancel</button>
+   </div>
+    &nbsp;&nbsp;&nbsp;
+ </form>
+ </div></div>
+</div>
+
+
+{% endblock content %}

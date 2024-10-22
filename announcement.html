@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .search-bar {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-btn {
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+</style>
+<script>
+  function searchTable() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("accountsTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1]; // Assuming index 1 corresponds to the account name column
+          if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+              } else {
+                  tr[i].style.display = "none";
+              }
+          }
+      }
+  }
+  document.getElementById("searchInput").addEventListener("keyup", search);
+</script>
+
+<div class="col body m-4 card shadow-lg p-3 bg-body rounded ">      
+
+      <div class="row" >
+          <h5 style="background-color: blue; height: 5px;"></h5>
+          <h3>List of Announcements
+            <a href="{% url 'newAnnouncement'%}"><button class="bg-primary text-white" style="margin-left: 650px; font-size: 20PX; ">
+              <i class="fa-solid fa-plus"></i> Create New
+            </button></a>
+          </h3>
+          <hr> 
+          <div style="margin-left: 850px;">
+            <i>Search :</i>
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for account names..">         
+            </button>
+        </div>
+      <form action="" method="post">
+        {% csrf_token %}
+        &nbsp;
+              <table class="table table-bordered g-1 "id="accountsTable">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Body</th>
+                    <th scope="col">Date last Update</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in announcemnet %}
+                  <tr>
+                    <td>{{ i.id}}</td>
+                    <td>{{ i.created_at }}</td>
+                    <td>{{ i.title}}</td>
+                    <td>{{ i.body | safe }}</td>
+                    <td>{{ i.last_date  }}</td>
+                    <td>    
+                      <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Action
+                        </a>
+                      
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <li><a class="dropdown-item" style="background-color: rgb(67, 67, 247); color:#fff;" href="{% url 'updateAnnouncement' i.pk %}">Edit</a></li>
+                          <li><a class="dropdown-item" style="background-color: rgb(243, 52, 52); color: #fff;" href="{% url 'deleteAnnouncement' i.pk %}">Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>  
+                  </tr>
+                  {% endfor i %}
+                </tbody>
+              </table>
+         
+
+            <h6><br>Showing 1 to 2 of entries</h6>
+            <div class="row m-3" style="padding-left: 800px;">
+              <div class="col col-md-12 m-3">
+                {% if announcemnet.has_other_pages %}
+                  <ul class="pagination">
+                    {% if announcemnet.has_previous %}
+                      <li class="page-item">
+                        <a href="?page={{ announcemnet.previous_page_number }}"><span class="page-link">Previous</span></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a href="?page={{ announcemnet.paginator.number_pages }}" class="page-link">Previous</a>
+                      </li>
+                    {% endif %}
+    
+                    <!-- Number Pagination -->
+    
+                    {% for i in announcemnet.paginator.page_range %}
+    
+                      {% if announcemnet.number == i %}
+                        <li class="page-item active">
+                          <a href="?page={{ i }}" class="page-link">{{i}}</a>
+                        </li>
+                    {% else %}
+                    <li class="page-item">
+                      <a href="?page={{ i }}" class="page-link">{{i}}</a>
+                    </li>
+                      {% endif %}
+    
+    
+                    {% endfor %}
+    
+    
+                    <!-- Next Button starts -->
+                    {% if announcemnet.has_next %}
+                      <li class="page-item">
+                        <a href="?page={{ announcemnet.next_page_number }}"><span class="page-link">Next</span></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a href="?page={{ announcemnet.paginator.number_pages }}" class="page-link">Next</a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+        </div>
+          </div>
+        </form>
+    
+
+
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .card::before { /* Added */
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10;
+        width: 100%;
+        height: 4px;
+        background-color: blue;
+        border-radius: 10px 10px 0 0;
+    }
+    p {
+        font-size: large;
+        margin-bottom: 0; /* Add this to remove bottom margin */
+    }
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* Add padding to the table wrapper */
+    .table-wrapper {
+        padding: 20px; /* Adjust the padding value as needed */
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.4/dist/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  
+  <div class="col body m-2 "> 
+  <div class="container mt-2">
+    <div class="card">
+        <div class="heading p-2">
+            <h3>Updata Announcements</h3>
+        </div>
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputAccountnumber" class="form-label">Title</label>
+            <input type="text" name="title"  class="form-control" value="{{updateAnnouncement.title}}" id="exampleInputAccountnumber" style="width: 500px;"  required>
+        </div>
+        <div class="heading p-2">
+            <p>Announcement</p>
+        </div>
+  
+  
+      <textarea id="editor-body" name="body">
+      </textarea>
+          
+         <div class="m-2">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-secondary">Cancel</button>
+         </div>
+    </div>
+  </div>
+  </form>
+  <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+  <script>
+        CKEDITOR.replace('editor-body')
+  </script>
+
+{% endblock content %}

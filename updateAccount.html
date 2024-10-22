@@ -1,0 +1,89 @@
+
+{% extends 'base.html' %}
+
+{% block content %} 
+
+
+<div class="col body m-4 ">      
+      <!-- Creating from start here -->
+      <div class="row" >
+       <!-- This col is for contact from start here-->
+          <div class="col-sm-12 col-md-12 col-lg-12 col-12 shadow-lg p-3 mb-5 bg-body rounded ">
+          <h5 style="background-color: blue; height: 5px;"></h5>
+          <h3>Updata Account</h3>
+          <form action="" method="post">
+           {% csrf_token %}
+          <hr> 
+             <form class="row g-3">
+              <div class="row">
+                <div class="col col-md-6">
+                    <label for=""><b>Account Number</b></label>
+                    <input type="text" class="form-control mt-2"  autocomplete="off" disabled><br>
+                </div>
+                <hr>
+                <div class="col col-md-4">
+                    <label for=""><b>First Name</b></label>
+                    <input type="text" class="form-control" name="FirstName" value="{{updateAccount.firstName}}" autocomplete="off">
+                </div>
+                <div class="col col-md-4">
+                    <label for=""><b>Middle Name</b></label>
+                    <input type="text" class="form-control"  name="MiddleName" value="{{updateAccount.middleName}}" autocomplete="off">
+                </div>
+                <div class="col col-md-4">
+                    <label for=""><b>Last Name</b></label>
+                    <input type="text" class="form-control" name="LastName" value="{{updateAccount.lastName}}" autocomplete="off">
+                </div>
+            </div>
+            <hr>
+            <div class="col col-md-6">
+                <label for=""><b>Email</b></label>
+                <input type="email" class="form-control" name="E_MAIL" value="{{updateAccount.Email}}" autocomplete="off">
+            </div>
+            <div class="col-md-7">
+              <label for="inputpassword" class="form-label">Password</label>
+             <div class="input-group mb-3" >
+              <input type="password" class="form-control" id="password" placeholder="*****" name="password" required>
+              <button type="button" id="generatePassword" style="border-color: skyblue;" >Generate</button>
+            </div>
+            </div>
+            <script>
+              document.getElementById("generatePassword").addEventListener("click", function() {
+                  var passwordField = document.getElementById("password");
+                  var newPassword = generateRandomPassword(10); // Change 10 to desired length
+                  passwordField.type = "text"; // Change input type to text to make the generated password visible
+                  passwordField.value = newPassword;
+              });
+              
+              function generateRandomPassword(length) {
+                  var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+                  var password = "";
+                  for (var i = 0; i < length; i++) {
+                      var randomIndex = Math.floor(Math.random() * charset.length);
+                      password += charset[randomIndex];
+                  }
+                  return password;
+              }
+              </script> 
+            <div class="col col-md-6">
+             <label for=""><b>PIN</b></label>
+             <input type="text" class="form-control" name="PIN" value="{{updateAccount.Pin}}" autocomplete="off">
+            </div>
+        </table>
+        <br>
+        <br>
+        <div class="col col-md-2 m-3">
+            <input type="submit" value="Save" class="btn btn-primary">
+            <input type="reset" value="Cancel" class="btn btn-secondary m-2">
+        </div>
+        <div class="col col-md-12 offset-md-11 mt-3 ">
+            <a href="" class="btn btn-warning">Back</a>
+        </div>
+    </div>
+ </form>
+ </div></div>
+</div>
+
+
+ {% endblock %}
+
+

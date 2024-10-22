@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .search-bar {
+                    padding: 8px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+                .search-btn {
+                    padding: 8px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border: none;
+                    border-radius: 0 5px 5px 0;
+                    cursor: pointer;
+                }
+        </style>
+        <script>
+          function searchTable() {
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchInput");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("accountsTable");
+              tr = table.getElementsByTagName("tr");
+        
+              // Loop through all table rows, and hide those who don't match the search query
+              for (i = 0; i < tr.length; i++) {
+                  td = tr[i].getElementsByTagName("td")[1]; // Assuming index 1 corresponds to the account name column
+                  if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                          tr[i].style.display = "";
+                      } else {
+                          tr[i].style.display = "none";
+                      }
+                  }
+              }
+          }
+        </script>
+        
+        <div class="col body m-4 shadow-lg p-3 mb-5 bg-body rounded ">      
+        
+              <div class="row" >
+        
+                  <div class="col-sm-12 col-md-12 col-lg-12 col-12">
+                  <h5 style="background-color: blue; height: 5px;"></h5>
+                  <h3>List of Account
+                    <a href="{% url 'newAccount' %}"><button class="bg-primary text-white" style="margin-left: 750px; font-size: 20PX;">
+                      <i class="fa-solid fa-plus"></i>  Create New
+                    </button></a>
+                  </h3>
+                  <hr> 
+        <form action="" method="post">
+              {% csrf_token %}
+                  <div style="margin-left: 850px;">
+                    <i>Search :</i>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for account names..">         
+                    </button>
+                </div>
+                <br>
+                      <table class="table table-bordered g-1 "id="accountsTable">
+                          <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Accounts</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Current Balance</th>
+                            <th scope="col">Date Added</th> 
+                            <th scope="col">Date last Update</th>
+                            <th>Action</th>
+                          </tr>
+                          {% for i in manageAccount %}
+                          <tr>
+                              <td>{{i.id}}</td>
+                              <td>{{i.accountNumber}}</td>
+                              <td>{{i.firstName}} {{i.middleName}} {{i.lastName}}</td>
+                              <td>{{i.beginingBalance}}</td>
+                              <td>{{i.created_at}}</td>
+                              <td>{{i.last_update}}</td>
+                              <td>  
+                              <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Action
+                                </a>
+                              
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                  <li><a class="dropdown-item" href="{% url 'updateAccount' i.pk %}">Edit</a></li>
+                                  <li><a class="dropdown-item"  href="{% url 'deleteAccount' i.pk %}">Delete</a></li>
+                                </ul>
+                              </div>
+                            </td>  
+                          </tr>
+                          {% endfor i %}
+                        </table>
+                      <h6><br>Showing 1 to 3 of entries</h6>
+                      <div class="row m-3" style="padding-left: 800px;">
+                        <div class="col col-md-12 m-3">
+                          {% if manageAccount.has_other_pages %}
+                            <ul class="pagination">
+                              {% if manageAccount.has_previous %}
+                                <li class="page-item">
+                                  <a href="?page={{ manageAccount.previous_page_number }}"><span class="page-link">Previous</span></a>
+                                </li>
+                              {% else %}
+                                <li class="page-item disabled">
+                                  <a href="?page={{ manageAccount.paginator.number_pages }}" class="page-link">Previous</a>
+                                </li>
+                              {% endif %}
+              
+                              <!-- Number Pagination -->
+              
+                              {% for i in manageAccount.paginator.page_range %}
+              
+                                {% if manageAccount.number == i %}
+                                  <li class="page-item active">
+                                    <a href="?page={{ i }}" class="page-link">{{i}}</a>
+                                  </li>
+                              {% else %}
+                              <li class="page-item">
+                                <a href="?page={{ i }}" class="page-link">{{i}}</a>
+                              </li>
+                                {% endif %}
+              
+              
+                              {% endfor %}
+              
+              
+                              <!-- Next Button starts -->
+                              {% if manageAccount.has_next %}
+                                <li class="page-item">
+                                  <a href="?page={{ manageAccount.next_page_number }}"><span class="page-link">Next</span></a>
+                                </li>
+                              {% else %}
+                                <li class="page-item disabled">
+                                  <a href="?page={{ manageAccount.paginator.number_pages }}" class="page-link">Next</a>
+                                </li>
+                              {% endif %}
+                            </ul>
+                          {% endif %}
+                        </div>
+                      </div>
+                  </div>
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>  
+        
+
+
+{% endblock content %}
